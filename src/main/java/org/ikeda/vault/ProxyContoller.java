@@ -16,7 +16,7 @@ public class ProxyContoller {
     private VaultService vaultService;
 
     @RequestMapping(value="/validate", method = {RequestMethod.POST}, produces={"application/json"})
-    public ResponseEntity<VaultResponse> testConnection(@RequestParam("token") String vaultToken, @RequestParam("addr") String vaultAddr) {
+    public ResponseEntity<VaultResponse> testConnection(@RequestHeader("X-Vault-Token") String vaultToken, @RequestParam("addr") String vaultAddr) {
         String comeback = vaultService.testConnection(vaultToken, vaultAddr);
         ObjectMapper mapper = new ObjectMapper();
         try {
@@ -40,8 +40,15 @@ public class ProxyContoller {
     }
 
     @PostMapping(value="/query", produces = { "application/json"})
-    public VaultResponse query(@RequestParam("token") String vaultToken, @RequestParam("addr") String vaultAddr, @RequestParam("path") String path) {
+    public String query(@RequestHeader("X-Vault-Token") String vaultToken, @RequestParam("addr") String vaultAddr, @RequestParam("path") String path) {
+        String data = vaultService.query(vaultToken, vaultAddr, "/".concat(path));
 
-        return null;
+        return data;
+    }
+
+    @GetMapping(value="/roles", produces={"application/json"})
+    public String roles(@RequestHeader("X-Vault-Token") String vaultToken, @RequestParam("addr") String vaultAddr) {
+        String data = vaultService.listRoles(vaultToken, vaultAddr);
+        return data;
     }
 }
