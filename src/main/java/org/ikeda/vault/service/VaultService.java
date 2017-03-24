@@ -11,7 +11,12 @@ import org.springframework.web.client.RestTemplate;
 public class VaultService {
 
     public String testConnection(String token, String addr) {
-        String url = addr.concat("/v1/sys/health");
+        return query(token, addr, "/v1/sys/health");
+    }
+
+    public String getPath()
+    private String query(String token, String addr, String path) {
+        String url = addr.concat(path);
         HttpHeaders headers = new HttpHeaders();
         headers.set("X-Vault-Token", token);
         HttpEntity<String> entity = new HttpEntity<String>(null, headers);
