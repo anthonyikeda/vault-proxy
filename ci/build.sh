@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e -x
 
-git clone git@github.com:anthonyikeda/vault-proxy.git
+git clone vault-proxy-code vault-proxy
 
 cd vault-proxy
 
